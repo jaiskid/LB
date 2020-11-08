@@ -460,6 +460,44 @@ int main() {
 	print(root);
 }
 /*-- File: EfficientCPREIN.cpp end --*/
+/*-- File: FindThesubtreeLargestsum.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+class node {
+public:
+	int data;
+	node*left, *right;
+	node(int d) {
+		data = d;
+		left = right = NULL;
+	}
+};
+node* buildtree() {
+	int data;
+	cin >> data;
+	if (data == -1) {
+		return NULL;
+	}
+	node*root = new node(data);
+	root->left = buildtree();
+	root->right = buildtree();
+	return root;
+}
+int findTheSubtree(node*root, int &ans) {
+	if (root == NULL) {
+		return 0;
+	}
+	int currsum = root->data + findTheSubtree(root->left, ans) + findTheSubtree(root->right, ans);
+	ans = max(currsum, ans);
+	return currsum;
+}
+int main() {
+	node*root = buildtree();
+	int ans = INT_MIN;
+	cout << findTheSubtree(root, ans);
+	cout << ans;
+}
+/*-- File: FindThesubtreeLargestsum.cpp end --*/
 /*-- File: HeightTree.cpp start --*/
 #include<bits/stdc++.h>
 using namespace std;
@@ -923,6 +961,62 @@ int main() {
 	}
 }
 /*-- File: LevelOrder.cpp end --*/
+/*-- File: MaximumSumbinaryTreeNoAdj.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+class node {
+public:
+	int data;
+	node*left, *right;
+	node(int d) {
+		data = d;
+		left = right = NULL;
+	}
+};
+node* buildtree() {
+	int data;
+	cin >> data;
+	if (data == -1) {
+		return NULL;
+	}
+	node* root = new node(data);
+	root->left = buildtree();
+	root->right = buildtree();
+	return root;
+}
+int sumOfgrandChildren(node*root, map<node*, int>&mp);
+int getMaxSumUtil(node*root, map<node*, int>&mp);
+int sumOfgrandChildren(node*root, map<node*, int>&mp) {
+	int sum = 0;
+	if (root->left) {
+		sum += getMaxSumUtil(root->left->left, mp) + getMaxSumUtil(root->left->right, mp);
+	}
+	if (root->right) {
+		sum += getMaxSumUtil(root->right->right, mp) + getMaxSumUtil(root->right->left, mp);
+	}
+	return sum;
+}
+int getMaxSumUtil(node* root , map<node*, int>&mp) {
+	if (root == NULL) {
+		return 0;
+	}
+	if (mp.find(root) != mp.end()) {
+		return mp[root];
+	}
+	int incl = root->data + sumOfgrandChildren(root, mp);
+	int excl = getMaxSumUtil(root->left, mp) + getMaxSumUtil(root->right, mp);
+	mp[root] = max(incl, excl);
+
+	return mp[root];
+}
+
+
+int main() {
+	node*root = buildtree();
+	map<node*, int> mp;
+	cout << getMaxSumUtil(root, mp);
+}
+/*-- File: MaximumSumbinaryTreeNoAdj.cpp end --*/
 /*-- File: MindistanceTwonodes.cpp start --*/
 #include<bits/stdc++.h>
 using namespace std;
@@ -1254,6 +1348,50 @@ int main() {
 	print(root);
 }
 /*-- File: SumTree.cpp end --*/
+/*-- File: SumTreeworst.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+class node {
+public:
+	int data;
+	node*left, *right;
+	node(int d) {
+		data = d;
+		left = right = NULL;
+	}
+};
+node* buildtree() {
+	int data;
+	cin >> data;
+	if (data == -1) {
+		return NULL;
+	}
+	node* root = new node(data);
+	root->left = buildtree();
+	root->right = buildtree();
+	return root;
+}
+int sum(node*root) {
+	if (root == NULL) {
+		return 0;
+	}
+	return sum(root->left) + root->data + sum(root->right);
+}
+bool Sumtree(node*root) {
+	if (root == NULL || root->left == NULL and root->right == NULL) {
+		return true;
+	}
+	int ls = sum(root->left);
+	int rs = sum(root->right);
+	if ((root->data == ls + rs) and Sumtree(root->left) and Sumtree(root->right))
+		return true;
+	return false;
+}
+int main() {
+	node*root = buildtree();
+	cout << Sumtree(root);
+}
+/*-- File: SumTreeworst.cpp end --*/
 /*-- File: Topview.cpp start --*/
 #include<bits/stdc++.h>
 using namespace std;
@@ -1698,3 +1836,48 @@ int main() {
 	cout << findLca(root, n1, n2)->data;
 }
 /*-- File: singleTraversalLca.cpp end --*/
+/*-- File: sumoflongestpath.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+class node {
+public:
+	int data;
+	node* left, *right;
+	node(int d) {
+		data = d;
+		left = right = NULL;
+	}
+};
+node* buildtree() {
+	int data;
+	cin >> data;
+	if (data == -1) {
+		return NULL;
+	}
+	node*root = new node(data);
+	root->left = buildtree();
+	root->right = buildtree();
+	return root;
+}
+void sumofLongRootToLeafPath(node*root, int sum, int len, int &maxLen, int &maxSum) {
+	if (root == NULL) {
+		if (maxLen < len) {
+			maxLen = len;
+			maxSum = sum;
+		}
+		else if (maxLen == len and maxSum < sum) {
+			maxSum = sum;
+		}
+		return;
+	}
+	sumofLongRootToLeafPath(root->left, sum + root->data, len, maxLen, maxSum);
+	sumofLongRootToLeafPath(root->right, sum + root->data, len, maxLen, maxSum);
+}
+int main() {
+	node* root = buildtree();
+	int maxLen = 0;
+	int maxSum = INT_MIN;
+	sumofLongRootToLeafPath(root, 0, 0, maxLen, maxSum);
+	cout << maxSum;
+}
+/*-- File: sumoflongestpath.cpp end --*/
