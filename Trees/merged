@@ -424,51 +424,51 @@ node* buildtree() {
 	return root;
 }
 
-vector<node*>v;
-string preorder(node* root, unordered_map<string, int> &mp)
+vector<int>v;
+string inorder(Node* node, unordered_map<string, int>& m)
 {
-	string s;
-	if (!root)
-	{
-		s += "X";
-		return s;
-	}
-	s += root->data;
-	s += preorder(root->left, mp);
-	s += preorder(root->right, mp);
-	mp[s]++;
-	if (mp[s] == 2) {
-		v.push_back(root);
-	}
-	return s;
+	if (!node)
+		return "";
+
+	string str = "(";
+
+	str += inorder(node->left, m);
+	str += to_string(node->data);
+	str += inorder(node->right, m);
+
+	str += ")";
+
+	// Subtree already present (Note that we use
+	// unordered_map instead of unordered_set
+	// because we want to print multiple duplicates
+	// only once, consider example of 4 in above
+	// subtree, it should be printed only once.
+	if (m[str] == 1)
+		v.push_back(node->data);
+
+	m[str]++;
+
+	return str;
 }
-// bool dupSub(Node *root)
-// {
-// for(auto i:mp)
-//  if(i.second>=2&&i.first.length()>3)
-//     return true;
-//   return false;
-// }
-void print(node*root) {
-	if (root == NULL) {
+
+// Wrapper over inorder()
+void printAllDups(Node* root)
+{	v.clear();
+	unordered_map<string, int> m;
+	inorder(root, m);
+	sort(v.begin(), v.end());
+	if (v.size() == 0) {
+		cout << -1;
 		return;
 	}
-	cout << root->data << " ";
-	print(root->left);
-	print(root->right);
-	cout << endl;
+	for (auto val : v) {
+		cout << val << " ";
+	}
 }
 int main() {
 	node*root = buildtree();
-	unordered_map<string, int> mp;
-	preorder(root, mp);
-	for (auto x : mp) {
-		cout << x.first << " " << x.second << endl;
-	}
-	cout << endl;
-	for (auto val : v) {
-		print(val);
-	}
+	printAllDups(root);
+
 }
 /*-- File: DuplicateSubtree.cpp end --*/
 /*-- File: EfficientCPREIN.cpp start --*/
