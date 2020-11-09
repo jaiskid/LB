@@ -20,21 +20,32 @@ node* buildtree() {
 	root->right = buildtree();
 	return root;
 }
-unordered_map<string, int> m;
-vector<node*> v;
-string duplicate(node*root) {
-	if (root == NULL) {
-		return "X";
+
+vector<node*>v;
+string preorder(node* root, unordered_map<string, int> &mp)
+{
+	string s;
+	if (!root)
+	{
+		s += "X";
+		return s;
 	}
-	string x = duplicate(root->left);
-	string y = duplicate(root->right);
-	string temp = to_string(root->data) + x + y;
-	m[temp]++;
-	if (m[temp] == 2) {
+	s += root->data;
+	s += preorder(root->left, mp);
+	s += preorder(root->right, mp);
+	mp[s]++;
+	if (mp[s] == 2) {
 		v.push_back(root);
 	}
-	return temp;
+	return s;
 }
+// bool dupSub(Node *root)
+// {
+// for(auto i:mp)
+//  if(i.second>=2&&i.first.length()>3)
+//     return true;
+//   return false;
+// }
 void print(node*root) {
 	if (root == NULL) {
 		return;
@@ -46,7 +57,12 @@ void print(node*root) {
 }
 int main() {
 	node*root = buildtree();
-	duplicate(root);
+	unordered_map<string, int> mp;
+	preorder(root, mp);
+	for (auto x : mp) {
+		cout << x.first << " " << x.second << endl;
+	}
+	cout << endl;
 	for (auto val : v) {
 		print(val);
 	}
