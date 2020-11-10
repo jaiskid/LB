@@ -52,7 +52,7 @@ int diameterNew(Node* root)
         return 0; 
     int ans = INT_MIN; // This will store the final answer 
     int height_of_tree = height(root, ans); 
-    return ans; 
+    return ans - 1; 
 } 
 // int diameter(node*root) {
 // 	if (root == NULL) {
