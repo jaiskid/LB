@@ -22,17 +22,17 @@ int main() {
 	for (int i = 0; i < n; i++) {
 		mp.insert({arr[i], 1});
 	}
-	// for (auto val : mp) {
-	// 	cout << val.first << " " << val.second << endl;
-	// }
+	for (auto val : mp) {
+		cout << val.first << " " << val.second << endl;
+	}
 	for (int i = 0; i < n; i++) {
 		if (mp.find(arr[i] - 1) != mp.end()) {
 			mp[arr[i]] = 0;
 		}
 	}
-	// for (auto val : mp) {
-	// 	cout << val.first << " " << val.second << endl;
-	// }
+	for (auto val : mp) {
+		cout << val.first << " " << val.second << endl;
+	}
 	int maximum = 0;
 	for (auto key : mp) {
 		if (mp.find(key.first) != mp.end()) {

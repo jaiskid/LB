@@ -6,9 +6,9 @@ int Pairs(int* arr, int n, int k) {
 	{
 		mp[arr[i]]++;
 	}
-	// for (auto val : mp) {
-	// 	cout << val.first << " " << val.second << endl;
-	// }
+	for (auto val : mp) {
+		cout << val.first << " " << val.second << endl;
+	}
 	int twice_count = 0;
 	for (int i = 0; i < n; i++) {
 		twice_count += mp[k - arr[i]];

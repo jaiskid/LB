@@ -7,9 +7,9 @@ int main() {
 	for (int i = 0; i < n; i++) {
 		cin >> arr[i];
 	}
-	int pist = 0;
-	int op = 0;
-	int lsf = INT_MAX;
+	int pist = 0;//profit if sale today
+	int op = 0; //overall profit
+	int lsf = INT_MAX; //least so far
 	for (int i = 0; i < n; i++) {
 		if (arr[i] < lsf) {
 			lsf = arr[i];
