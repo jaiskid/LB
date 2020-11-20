@@ -7,6 +7,7 @@ public:
 	node(int d) {
 		data = d;
 		left = right = NULL;
+		
 	}
 };
 node* buildtree()

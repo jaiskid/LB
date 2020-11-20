@@ -14,6 +14,7 @@ node* buildtree() {
     if (data == -1) {
         return NULL;
     }
+    
     node*root = new node(data);
     root->left = buildtree();
     root->right = buildtree();

@@ -8,6 +8,7 @@ public:
 		data = d;
 		left = right = NULL;
 	}
+	
 };
 node* buildTree() {
 	int data;
