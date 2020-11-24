@@ -1,0 +1,1072 @@
+/*-- File: BuyandSellOneTransaction.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int main() {
+	int n;
+	cin >> n;
+	int arr[n];
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
+	}
+	int pist = 0;//profit if sale today
+	int op = 0; //overall profit
+	int lsf = INT_MAX; //least so far
+	for (int i = 0; i < n; i++) {
+		if (arr[i] < lsf) {
+			lsf = arr[i];
+		}
+		pist = arr[i] - lsf;
+		op = max(pist, op);
+	}
+	cout << op << endl;
+}
+/*-- File: BuyandSellOneTransaction.cpp end --*/
+/*-- File: CandyDistribution.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int Candies(int *arr, int n, int m) {
+	sort(arr, arr + n);
+	int diff = arr[m - 1] - arr[0];
+	for (int i = m; i < n; i++) {
+		diff = min(diff, arr[i] - arr[i - m + 1]);
+	}
+	return diff;
+}
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		int n;
+		cin >> n;
+		int arr[n];
+		for (int i = 0; i < n; i++) {
+			cin >> arr[i];
+		}
+		int m;
+		cin >> m;
+		cout << Candies(arr, n, m) << endl;
+	}
+	return 0;
+}
+/*-- File: CandyDistribution.cpp end --*/
+/*-- File: CommonElements.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+  vector <int> commonElements (int a[], int b[], int c[], int m, int n, int o)
+{
+	vector<int> res;
+	//code here.
+	int i = 0, j = 0, k = 0;
+	while (i < m and j < n and k < o) {
+		if (a[i] == b[j] and b[j] == c[k]) {
+			res.push_back(a[i]);
+			i++;
+			j++;
+			k++;
+		}
+		else if (a[i] < b[j]) {
+			i++;
+		}
+		else if (b[j] < c[k]) {
+			j++;
+		}
+		else {
+			k++;
+		}
+	}
+	
+	set<int> s;
+    for(auto val : res){
+        s.insert(val);
+    }
+    res.clear();
+    for(auto val : s){
+        res.push_back(val);
+    }
+    return res;
+}
+int main() {
+	int m;
+	cin >> m;
+	int a[m];
+	for (int i = 0; i < m; i++) {
+		cin >> a[i];
+	}
+	int n;
+	cin >> n;
+	int b[n];
+	for (int i = 0; i < n; i++) {
+		cin >> b[i];
+	}
+	int o;
+	cin >> o;
+	int c[o];
+	for (int i = 0; i < o; i++) {
+		cin >> c[i];
+	}
+	vector<int>ans = commonElements(a, b, c, m, n, o);
+	for (auto val : ans) {
+		cout << val << " ";
+	}
+}
+/*-- File: CommonElements.cpp end --*/
+/*-- File: ContingousKadane.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int kadane(int *arr, int n) {
+	int cs = 0;
+	int ms = INT_MIN;
+	for (int i = 0; i < n; i++) {
+		cs += arr[i];
+		ms = max(ms, cs);
+		if (cs < 0) {
+			cs = 0;
+		}
+	}
+	return  ms;
+}
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		int n;
+		cin >> n;
+		int arr[n];
+		for (int i = 0; i < n; i++) {
+			cin >> arr[i];
+		}
+		cout << kadane(arr, n) << endl;
+	}
+
+}
+/*-- File: ContingousKadane.cpp end --*/
+/*-- File: CountpairsWithgivenSum.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int Pairs(int* arr, int n, int k) {
+	unordered_map<int, int> mp;
+	for (int i = 0; i < n; ++i)
+	{
+		mp[arr[i]]++;
+	}
+	for (auto val : mp) {
+		cout << val.first << " " << val.second << endl;
+	}
+	int twice_count = 0;
+	for (int i = 0; i < n; i++) {
+		twice_count += mp[k - arr[i]];
+		if (k - arr[i] == arr[i]) {
+			twice_count--;
+		}
+	}
+	return twice_count / 2;
+}
+int main() {
+	int n;
+	cin >> n;
+	int arr[n];
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
+	}
+	int k;
+	cin >> k;
+	cout << Pairs(arr, n, k);
+}
+/*-- File: CountpairsWithgivenSum.cpp end --*/
+/*-- File: Cyclicallyrotateanarraybyone.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		int n;
+		cin >> n;
+		int arr[n];
+		for (int i = 0; i < n; i++) {
+			cin >> arr[i];
+		}
+		int temp = arr[n - 1];
+		for (int i = n - 1; i >= 0; i--) {
+			arr[i + 1] = arr[i];
+		}
+		arr[0] = temp;
+		for (int i = 0; i < n; i++) {
+			cout << arr[i] << " ";
+		}
+		cout << endl;
+	}
+}
+/*-- File: Cyclicallyrotateanarraybyone.cpp end --*/
+/*-- File: FactorialLarge.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int multiply(int number , int *resultArray, int resultarraysize) {
+	int carry = 0, mulRes;
+	for (int i = 0; i < resultarraysize; i++) {
+		mulRes = resultArray[i] * number + carry;
+		resultArray[i] = mulRes % 10;
+		carry = mulRes / 10;
+	}
+	while (carry) {
+		resultArray[resultarraysize++] = carry % 10;
+		carry = carry / 10;
+	}
+	return resultarraysize;
+}
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		int n;
+		cin >> n;
+		int resultArray[1005];
+		int resultarraysize = 1;
+		resultArray[0] = 1;
+		while (n) {
+			resultarraysize = multiply(n--, resultArray, resultarraysize);
+
+		}
+		for (int i = resultarraysize - 1; i >= 0; i--) {
+			cout << resultArray[i];
+		}
+		cout << endl;
+	}
+
+}
+/*-- File: FactorialLarge.cpp end --*/
+/*-- File: FindDuplicateNumbersUsingSets.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int duplicateNumbers(vector<int>&nums, int n) {
+	set<int>s;
+	int ans;
+	for (int i = 0; i < n; i++) {
+		if (s.find(nums[i]) == s.end()) {
+			s.insert(nums[i]);
+		}
+		else {
+			ans = nums[i];
+			break;
+		}
+	}
+	return ans;
+}
+int main() {
+	int n;
+	cin >> n;
+	vector<int>nums;
+	nums.resize(n);
+	for (int i = 0; i < n; i++) {
+		cin >> nums[i];
+	}
+	cout << duplicateNumbers(nums, n);
+}
+/*-- File: FindDuplicateNumbersUsingSets.cpp end --*/
+/*-- File: FindDuplicateNumbersUsingSorting.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int main() {
+	int n;
+	cin >> n;
+	vector<int>nums;
+	nums.resize(n);
+	for (int i = 0; i < nums.size(); i++) {
+		cin >> nums[i];
+	}
+	sort(nums.begin(), nums.end());
+	int ans;
+	for (int i = 0; i < nums.size(); i++) {
+		if (nums[i] == nums[i + 1]) {
+			ans = nums[i];
+			break;
+		}
+	}
+	cout << ans << endl;
+}
+/*-- File: FindDuplicateNumbersUsingSorting.cpp end --*/
+/*-- File: InversionofArrayusingD&C.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int helper_function(int *arr, int *temp, int left, int right) {
+	int mid, inv_count = 0;
+	if (right > left) {
+		mid = left + (right - left) / 2;
+		inv_count += helper_function(arr, temp, left, mid);
+		inv_count += helper_function(arr, temp, mid + 1, right);
+		inv_count += merge(arr, temp, left, mid + 1, right);
+	}
+	return inv_count;
+}
+int mergeSort(int *arr, int n) {
+	int temp[n];
+	return helper_function(arr, temp, 0, n - 1);
+}
+int merge(int *arr, int *temp, int left, int mid, int right) {
+	int i, j, k;
+	int inv_count = 0;
+	i = left;
+	j = mid;
+	k = left;
+	while ((i <= mid - 1) and (j <= right)) {
+		if (arr[i] <= arr[j]) {
+			temp[k++] = arr[i++];
+		}
+		else {
+			temp[k++] = arr[j++];
+			inv_count = inv_count + (mid - i);
+		}
+	}
+	while(i<=mid-1){
+		temp[k++] = arr[i++];
+	}
+	while(j<=right){
+		temp[k++] = arr[j++];
+	}
+	for(int i=left;i<=right;i++){
+		arr[i] = temp[i];
+	}
+	return inv_count;
+}
+
+int main() {
+	int n;
+	cin >> n;
+	int arr[n];
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
+	}
+	cout << mergeSort(arr, n);
+	return 0; 
+}
+/*-- File: InversionofArrayusingD&C.cpp end --*/
+/*-- File: Inversionofarray.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		int n;
+		cin >> n;
+		int arr[n];
+		for (int i = 0; i < n; i++) {
+			cin >> arr[i];
+		}
+		int count = 0;
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				if (arr[i] > arr[j] and i < j)
+					count++;
+			}
+		}
+		cout << count << endl;
+	}
+
+
+}
+/*-- File: Inversionofarray.cpp end --*/
+/*-- File: KthSmallestElementusingHeaps.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int Kthsmallest(int *arr, int k, int n) {
+	priority_queue<int> pq;
+	for (int i = 0; i < n; i++) {
+		//insertion
+		pq.push(arr[i]);
+		if (pq.size() > k) {
+			pq.pop();
+		}
+	}
+	return pq.top();
+}
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		int n;
+		cin >> n;
+		int arr[n];
+		for (int i = 0; i < n; i++) {
+			cin >> arr[i];
+		}
+		int k;
+		cin >> k;
+		cout << Kthsmallest(arr, k, n);
+	}
+}
+// 1
+// 6
+// 7 10 4 3 20 15
+// 3
+// 3 4 7 10 15 20
+// 1 2 3  4  5 6
+/*-- File: KthSmallestElementusingHeaps.cpp end --*/
+/*-- File: KthSmallestElementusingSorting.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		int n;
+		cin >> n;
+		int arr[n];
+		for (int i = 0; i < n; i++) {
+			cin >> arr[i];
+		}
+		sort(arr, arr + n);
+		int k;
+		cin >> k;
+		cout << arr[k - 1] << " ";
+		cout << endl;
+	}
+
+}
+/*-- File: KthSmallestElementusingSorting.cpp end --*/
+/*-- File: LongestConsecutiveNumberusingHasing.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int findLength(unordered_map<int, int> mp, int key) {
+	int ans = 0;
+	while (mp.find(key) != mp.end()) {
+		ans++;
+		key++;
+	}
+	return ans;
+}
+int main() {
+	int t;
+	cin>>t;
+	while(t--){
+		int n;
+	cin >> n;
+	int arr[n];
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
+	}
+	unordered_map<int, int> mp;
+	for (int i = 0; i < n; i++) {
+		mp.insert({arr[i], 1});
+	}
+	for (auto val : mp) {
+		cout << val.first << " " << val.second << endl;
+	}
+	for (int i = 0; i < n; i++) {
+		if (mp.find(arr[i] - 1) != mp.end()) {
+			mp[arr[i]] = 0;
+		}
+	}
+	for (auto val : mp) {
+		cout << val.first << " " << val.second << endl;
+	}
+	int maximum = 0;
+	for (auto key : mp) {
+		if (mp.find(key.first) != mp.end()) {
+			maximum = max(maximum, findLength(mp, key.first));
+		}
+	}
+	cout << maximum << endl;
+	}
+	
+	return 0;
+}
+/*-- File: LongestConsecutiveNumberusingHasing.cpp end --*/
+/*-- File: LongestConsecutiveNumberusingSorting.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+//failed to handle the duplicates
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		int n;
+		cin >> n;
+		int arr[n];
+		for (int i = 0; i < n; i++) {
+			cin >> arr[i];
+		}
+		sort(arr, arr + n);
+		int count = 0, ans = 0;
+		for (int i = 0; i < n; i++) {
+			if (i > 0 and arr[i] == arr[i - 1] + 1)
+				count++;
+			else
+				count = 1;
+			ans = max(ans, count);
+		}
+		cout << ans << endl;
+	}
+}
+/*-- File: LongestConsecutiveNumberusingSorting.cpp end --*/
+/*-- File: MaximumandMinimum.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int Maximum(int *arr, int n) {
+	int res = INT_MIN;
+	for (int i = 0; i < n; i++) {
+		res = max(arr[i], res);
+	}
+	return res;
+}
+int Minimum(int*arr, int n) {
+	int res = INT_MAX;
+	for (int i = 0; i < n; i++) {
+		res = min(arr[i], res);
+	}
+	return res;
+}
+int main() {
+	int n;
+	cin >> n;
+	int arr[n];
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
+	}
+	cout << Maximum(arr, n);
+	cout << endl;
+	cout << Minimum(arr, n);
+}
+/*-- File: MaximumandMinimum.cpp end --*/
+/*-- File: MedianofArray.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int main() {
+	int n;
+	cin >> n;
+	int arr[n];
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
+	}
+	sort(arr, arr + n);
+	cout << arr[n / 2];
+}
+/*-- File: MedianofArray.cpp end --*/
+/*-- File: MedianofTwoSortedArrays.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int getMedian(int *a, int *b, int n) {
+	int i = 0;
+	int j = 0;
+	int count;
+	int m1 = -1, m2 = -1;
+	for (count = 0 ; count <= n; count++) {
+		/* Below is to handle case where
+		  all elements of a[] are
+		  smaller than smallest(or first)
+		  element of b[]*/
+		if (i == n) {
+			m1 = m2;
+			m2 = b[0];
+			break;
+		}
+		/* Below is to handle case where
+		   all elements of b[] are
+		   smaller than smallest(or first)
+		   element of a[]*/
+		if (j == n) {
+			m1 = m2;
+			m2 = a[0];
+			break;
+		}
+		if (a[i] <= b[j]) {
+			m1 = m2;
+			m2 = a[i];
+			i++;
+		}
+		else {
+			m1 = m2;
+			m2 = b[j];
+			j++;
+		}
+	}
+	return (m1 + m2) / 2;
+}
+int main() {
+	int n;
+	cin >> n;
+	int a[n];
+	int b[n];
+	for (int i = 0; i < n; i++) {
+		cin >> a[i];
+	}
+	for (int i = 0; i < n; i++) {
+		cin >> b[i];
+	}
+	cout << getMedian(a, b, n);
+}
+/*-- File: MedianofTwoSortedArrays.cpp end --*/
+/*-- File: Minimizetheheights.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int getMinHeight(int *arr, int n, int k) {
+	sort(arr, arr + n);
+	int s = 0;
+	int e = n - 1;
+	int mid = s + (e - s) / 2;
+	for (int i = 0; i < mid; i++) {
+		arr[i] = arr[i] + k;
+	}
+	for (int i = mid + 1; i < n; i++) {
+		arr[i] = arr[i] - k;
+	}
+	return arr[n - 1] - arr[0];
+}
+int main() {
+	int k;
+	cin >> k;
+	int n;
+	cin >> n;
+	int arr[n];
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
+	}
+	cout << getMinHeight(arr, n, k);
+}
+
+/*-- File: Minimizetheheights.cpp end --*/
+/*-- File: MovingAllNegativeNumber.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int main() {
+	int n;
+	cin >> n;
+	int arr[n];
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
+	}
+	int j = 0;
+	for (int i = 0; i < n; i++) {
+		
+		if (arr[i] < 0) {
+			if (i != j) {
+				swap(arr[i], arr[j]);
+
+			}
+			j++;
+		}
+
+	}
+	for (auto val : arr) {
+		cout << val << " ";
+	}
+}
+/*-- File: MovingAllNegativeNumber.cpp end --*/
+/*-- File: Movingallelementsthatarenegative.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int main() {
+	int n;
+	cin >> n;
+	int arr[n];
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
+	}
+	for (int i = 0; i < n; i++) {
+		int j;
+		
+	}
+	for (int i = 0; i < n; i++) {
+		if (arr[i] > 0)
+		{
+			cout << arr[i] << " ";
+
+		}
+	}
+}
+/*-- File: Movingallelementsthatarenegative.cpp end --*/
+/*-- File: ReverseofArrays.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+void rotation(int *arr, int n) {
+	int s = 0;
+	int e = n - 1;
+	while (s <= e) {
+		swap(arr[s++], arr[e--]);
+	}
+}
+int main() {
+	int n;
+	cin >> n;
+	int arr[n];
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
+	}
+	rotation(arr, n);
+	for (auto val : arr) {
+		cout << val << " ";
+	}
+}
+/*-- File: ReverseofArrays.cpp end --*/
+/*-- File: Smallestsubarray.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int smallestSubwithsum(int *arr, int n, int x) {
+	int min_len = n + 1;
+	for (int start = 0; start < n; start++) {
+		int curr_sum = arr[start];
+		if (curr_sum > x)
+			return 1;
+		for (int end = start + 1; end < n; end++) {
+			curr_sum += arr[end];
+			if (curr_sum > x and (end - start + 1) < min_len)
+				min_len = (end - start + 1);
+		}
+	}
+	return min_len;
+}
+int main() {
+	int n;
+	cin >> n;
+	int arr[n];
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
+	}
+	int x;
+	cin >> x;
+	cout << smallestSubwithsum(arr, n, x);
+}
+/*-- File: Smallestsubarray.cpp end --*/
+/*-- File: SmallestsubarrayO1.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int SmallestSubwithSum(int *arr, int n, int x) {
+	int curr_sum = 0, min_len = n + 1;
+	int start = 0, end = 0;
+	while (end < n) {
+		//phele add
+		while (curr_sum <= x end < n) {
+			curr_sum += arr[end++];
+		}
+		while (curr_sum > x && start < n) {
+			//Sirf Subtract
+			if (end - start < min_len)
+				min_len = end - start;
+			curr_sum -= arr[start++];
+		}
+	}
+	return min_len;
+}
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		int n;
+		cin >> n;
+		int key;
+		cin >> key;
+		int arr[n];
+		for (int i = 0; i < n; i++) {
+			cin >> arr[i];
+		}
+		cout << SmallestSubwithSum(arr, n, x) << endl;
+	}
+
+}
+/*-- File: SmallestsubarrayO1.cpp end --*/
+/*-- File: Sorting0&1.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int main() {
+	int n;
+	cin >> n;
+	int arr[n];
+	int zero = 0;
+	int one = 0;
+	int two = 0;
+	for (int i = 0; i < n; i++)
+	{
+		cin >> arr[i];
+		if (arr[i] == 0) {
+			zero++;
+		}
+		if (arr[i] == 1) {
+			one++;
+		}
+		if (arr[i] == 2) {
+			two++;
+		}
+	}
+	while (zero--) {
+		cout << "0" << " ";
+	}
+	while (one--) {
+		cout << "1" << " ";
+	}
+	while (two--) {
+		cout << "2" << " ";
+	}
+	return 0;
+}
+/*-- File: Sorting0&1.cpp end --*/
+/*-- File: Subarraywithsumzero.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+bool finder(int *arr, int n) {
+	unordered_set<int> set;
+	set.insert(0);
+	int sum = 0;
+	for (int i = 0; i < n; i++) {
+		sum += arr[i];
+		if (set.find(sum) != set.end()) {
+			return true;
+		}
+		else {
+			set.insert(sum);
+		}
+	}
+	return false;
+}
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		int n;
+		cin >> n;
+		int arr[n];
+		for (int i = 0; i < n; i++) {
+			cin >> arr[i];
+		}
+		(finder(arr, n)) ? cout << "YES" << endl : cout << "NO" << endl;
+	}
+
+}
+/*-- File: Subarraywithsumzero.cpp end --*/
+/*-- File: Traping.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		int n;
+		cin >> n;
+		int arr[n];
+		for (int i = 0; i < n; i++) {
+			cin >> arr[i];
+		}
+		int left[n];
+		int right[n];
+		left[0] = arr[0];
+		for (int i = 1; i < n; i++) {
+			left[i] = max(left[i - 1], arr[i]);
+		}
+		right[n - 1] = arr[n - 1];
+		for (int i = n - 2; i >= 0; i--) {
+			right[i] = max(right[i + 1], arr[i]);
+		}
+		int ans = 0;
+		for (int i = 0; i < n; i++) {
+			ans += min(left[i], right[i]) - arr[i];
+		}
+		cout << ans << endl;
+	}
+
+	return 0;
+}
+/*-- File: Traping.cpp end --*/
+/*-- File: TripletSuminArray.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int triplet(int *arr, int n, int sum) {
+	int l, r;
+	for (int i = 0; i < n - 2; i++) {
+		l = i + 1;
+		r = n - 1;
+		while (l < r) {
+			if (arr[i] + arr[l] + arr[r] == sum) {
+				return true;
+			}
+			else if (arr[i] + arr[l] + arr[r] < sum) {
+				l++;
+			}
+			else {
+				r--;
+			}
+		}
+	}
+	return false;
+}
+int main() {
+	int n;
+	cin >> n;
+	int sum;
+	cin >> sum;
+	int arr[n];
+	for (int i = 0; i < n; ++i)
+	{
+		cin >> arr[i];
+	}
+
+	sort(arr, arr + n);
+	cout << triplet(arr, n, sum);
+	return 0;
+
+} 
+/*-- File: TripletSuminArray.cpp end --*/
+/*-- File: UnionandIntersectionusingset.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int sizeofarr(int *arr1, int n, int *arr2, int m) {
+	set<int>s;
+	for (int i = 0; i < n; i++) {
+		s.insert(arr1[i]);
+	}
+	for (int i = 0; i < m; i++) {
+		s.insert(arr2[i]);
+	}
+	return s.size();
+}
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		int n;
+		cin >> n;
+		int m;
+		cin >> m;
+		int arr1[n];
+		for (int i = 0; i < n; i++) {
+			cin >> arr1[i];
+		}
+		int arr2[m];
+		for (int i = 0; i < m; i++) {
+			cin >> arr2[i];
+		}
+		cout << sizeofarr(arr1, n, arr2, m) << endl;
+	}
+
+}
+/*-- File: UnionandIntersectionusingset.cpp end --*/
+/*-- File: UnionandIntersectionusingsorting.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int sizeofarr(int *arr1, int n, int *arr2, int m) {
+	sort(arr1, arr1 + n);
+	sort(arr2, arr2 + n);
+	int i = 0, j = 0;
+	vector<int>ans;
+	while (i < n && j < m) {
+		if (arr1[i] < arr2[j]) {
+			ans.push_back(arr1[i++]);
+		}
+		else if (arr1[i] > arr2[j]) {
+			ans.push_back(arr2[j++]);
+		}
+		else {
+			ans.push_back(arr2[j++]);
+			i++;
+		}
+	}
+	while (i < n) {
+		ans.push_back(arr1[i++]);
+	}
+	while (j < m) {
+		ans.push_back(arr2[j++]);
+	}
+	return ans.size();
+}
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		int n;
+		cin >> n;
+		int m;
+		cin >> m;
+		int arr1[n];
+		for (int i = 0; i < n; i++) {
+			cin >> arr1[i];
+		}
+		int arr2[m];
+		for (int i = 0; i < m; i++) {
+			cin >> arr2[i];
+		}
+		cout << sizeofarr(arr1, n, arr2, m) << endl;
+	}
+}
+/*-- File: UnionandIntersectionusingsorting.cpp end --*/
+/*-- File: arraywithnbyk.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int main() {
+	int n;
+	cin >> n;
+	int arr[n];
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
+	}
+	int k;
+	cin >> k;
+	int ans = n / k;
+	unordered_map<int, int> mp;
+	for (int i = 0; i < n; i++) {
+		mp[arr[i]]++;
+	}
+	for (auto val : mp) {
+		if (val.second > ans) {
+			cout << val.first << endl;
+		}
+	}
+	return 0;
+
+}
+/*-- File: arraywithnbyk.cpp end --*/
+/*-- File: subsetofanotherarray.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+bool arraySubset(int arr1[], int arr2[], int m, int n)
+{
+    unordered_set<int> s;
+    for(int i = 0; i < m; i++)
+    {
+        s.insert(arr1[i]);
+    }
+    
+    for(int i = 0; i < n; i++)
+    {
+        if(s.find(arr2[i]) == s.end())
+        {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+int main()
+{
+    int T;
+    cin >> T;
+    
+    while(T--)
+    {
+        int m, n;
+        cin >> m >> n;
+        
+        int arr1[m];
+        for(int i = 0; i < m; i++)
+        {
+            cin >> arr1[i];
+        }
+        
+        int arr2[n];
+        for(int i = 0; i < n; i++)
+        {
+            cin >> arr2[i];
+        }
+        
+        if(arraySubset(arr1, arr2, m, n) == true)
+        {
+            cout << "Yes";
+        }
+        else
+        {
+            cout << "No";
+        }
+        
+        cout << endl;
+    }
+	return 0;
+}
+/*-- File: subsetofanotherarray.cpp end --*/

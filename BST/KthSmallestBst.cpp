@@ -3,7 +3,8 @@ using namespace std;
 class node {
 public:
 	int data;
-	node*left, *right;
+	node*left;
+	node*right;
 	node(int d) {
 		data = d;
 		left = right = NULL;
@@ -22,25 +23,22 @@ node* construct(node*root, int data) {
 	}
 	return root;
 }
-void inorder(node*root, vector<node*>&in) {
-	if (root == NULL)
+void inorder(node*root, int k, int &index, int &res) {
+	if (root != NULL) {
 		return;
-	inorder(root->left, in);
-	in.push_back(root);
-	inorder(root->right, in);
-}
-node*buildtree(vector<node*>&in, int start, int end) {
-	if (start > end)
-		return NULL;
-	int mid = start + (end - start) / 2;
-	node*root = in[mid];
-	root->left = buildtree(in, start, mid - 1);
-	root->right = buildtree(in, mid + 1, end);
-	return root;
+	}
+	inorder(root->left, k, index, res);
+	if (index == k) {
+		res = root->data;
+	}
+	index++;
+	inorder(root->right, k, index, res);
+
 }
 void preorder(node*root) {
-	if (root == NULL)
+	if (root == NULL) {
 		return;
+	}
 	cout << root->data << " ";
 	preorder(root->left);
 	preorder(root->right);
@@ -55,9 +53,10 @@ int main() {
 		root = construct(root, data);
 	}
 	preorder(root);
-	vector<node*>in;
-	cout << endl;
-	inorder(root, in);
-	root = buildtree(in, 0, in.size() - 1);
-	preorder(root);
+	int k;
+	cin >> k;
+	int res = -1;
+	int index = 1;
+	inorder(root, k, index, res);
+	cout << res;
 }
