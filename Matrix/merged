@@ -1,0 +1,157 @@
+/*-- File: Anticlockwise.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int main() {
+	int n;
+	cin >> n;
+	vector<vector<int>> nums(n, vector<int>(n));
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			cin >> nums[i][j];
+		}
+	}
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n / 2; j++) {
+			swap(nums[i][j], nums[i][n - j - 1]);
+		}
+	}
+	for (int i = 0; i < n; i++) {
+		for (int j = i; j < n; j++) {
+			swap(nums[i][j], nums[j][i]);
+		}
+	}
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			cout << nums[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
+/*-- File: Anticlockwise.cpp end --*/
+/*-- File: Clockwise.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int main() {
+	int n;
+	cin >> n;
+	vector<vector<int>> nums(n, vector<int>(n));
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			cin >> nums[i][j];
+		}
+	}
+	for (int i = 0; i < n; i++) {
+		for (int j = i; j < n; j++) {
+			swap(nums[i][j], nums[j][i]);
+		}
+	}
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n / 2; j++) {
+			swap(nums[i][j], nums[i][n - j - 1]);
+		}
+	}
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			cout << nums[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
+/*-- File: Clockwise.cpp end --*/
+/*-- File: MedianInSortedMatrix.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+int BinaryMedian(int m[][1005], int r, int c) {
+	int min = INT_MAX, max = INT_MIN;
+	for (int i = 0; i < r; i++) {
+		if (m[i][0] < min) {
+			min = m[i][0];
+		}
+		if (m[i][c - 1] > max) {
+			max = m[i][c - 1];
+		}
+	}
+	int desired = (r * c + 1) / 2;
+	while (min < max) {
+		int mid = min + (max - min) / 2;
+		int place = 0;
+		//Find count of element smaller than mid
+		for (int i = 0; i < r; i++) {
+			place += upper_bound(m[i], m[i] + c, mid) - m[i];
+
+		}
+		if (place < desired)
+			min = mid + 1;
+		else
+			max = mid;
+	}
+	return min;
+}
+int main() {
+	int r, c;
+	cin >> r >> c;
+	int m[1005][1005];
+	for (int i = 0; i < r; i++) {
+		for (int j = 0; j < c; j++) {
+			cin >> m[i][j];
+		}
+	}
+	cout << BinaryMedian(m, r, c) << endl;
+	return 0;
+}
+/*-- File: MedianInSortedMatrix.cpp end --*/
+/*-- File: SearchInMatrix2.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+
+int main() {
+	int arr[1005][1005];
+	int r, c;
+	cin >> r >> c;
+	for (int i = 0; i < r; i++) {
+		for (int j = 0; j < c; j++) {
+			cin >> arr[i][j];
+		}
+	}
+	int key;
+	cin >> key;
+	int i = 0;
+	int j = n - 1;
+	while (i<n and j >= 0) {
+		if (key == arr[i][j]) {
+			cout << i << " " << j << endl;
+			return 0;
+		}
+		else if (key < arr[i][j]) {
+			j--;
+		}
+		else {
+			i++;
+		}
+	}
+	cout << "Not found" << endl;
+}
+/*-- File: SearchInMatrix2.cpp end --*/
+/*-- File: wordSearch.cpp start --*/
+ bool exist(vector<vector<char>>& board, string word) {
+        for(int i=0;i<board.size();i++){
+            for(int j=0;j<board[0].size();j++){
+                if((board[i][j] == word[0]) and dfs(board,i,j,0,word))
+                    return true;
+            }
+        }
+        return false;
+    }
+    private:
+    bool dfs(vector<vector<char>>&board,int i,int j,int count, string word){
+        if(count == word.size())
+            return true;
+        if(i==-1 || i== board.size()|| j==-1 || j == board[0].size() || board[i][j]!=word[count])
+            return false;
+        char temp = board[i][j];
+        board[i][j] = '*';
+        bool found = dfs(board,i+1,j,count+1,word)||dfs(board,i-1,j,count+1,word)||dfs(board,i,j+1,count+1,word)||dfs(board,i,j-1,count+1,word);
+        board[i][j] = temp;
+        return found;
+    }
+/*-- File: wordSearch.cpp end --*/
