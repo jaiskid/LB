@@ -1,23 +1,17 @@
 #include<bits/stdc++.h>
 using namespace std;
-int isPlaindrome(string S)
-{
-	// Your code goes here
-	int s = 0;
-	int e = S.size() - 1;
-	while (s < e) {
-		if (S[s] != S[e]) {
-
+bool ispalindrome(string s) {
+	int start = 0;
+	int end = s.size() - 1;
+	while (start < end) {
+		if (s[start++] != s[end--]) {
 			return false;
-
 		}
-		s++;
-		e--;
 	}
 	return true;
 }
 int main() {
 	string s;
 	cin >> s;
-	cout << isPlaindrome(s);
+	(ispalindrome(s) == 1) ? cout << "Yes" : cout << "No";
 }

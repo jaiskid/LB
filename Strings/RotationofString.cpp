@@ -1,14 +1,16 @@
 #include<bits/stdc++.h>
 using namespace std;
-bool Rotation(string a, string b) {
-	if (a.length() != b.length())
+bool isrotations(string a, string b) {
+	if (a.size() != b.size())
 		return false;
-	string temp = a + a;
+	string temp = a + b;
 	return (temp.find(b) != string::npos);
 }
 int main() {
-	string a, b;
-	cin >> a >> b;
-	cout << Rotation(a, b);
-	return 0;
+	string a;
+	cin >> a;
+	string b;
+	cin >> b;
+	(isrotations(a, b)) ? cout << "Yes" : cout << "No";
+
 }

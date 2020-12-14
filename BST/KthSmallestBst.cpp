@@ -25,14 +25,13 @@ node* construct(node*root, int data) {
 }
 void inorder(node*root, int k, int &index, int &res) {
 	if (root != NULL) {
-		return;
+		inorder(root->left, k, index, res);
+		if (index == k) {
+			res = root->data;
+		}
+		index++;
+		inorder(root->right, k, index, res);
 	}
-	inorder(root->left, k, index, res);
-	if (index == k) {
-		res = root->data;
-	}
-	index++;
-	inorder(root->right, k, index, res);
 
 }
 void preorder(node*root) {

@@ -20,7 +20,7 @@ vector<int> nge(vector<int>nums) {
 	reverse(ans.begin(), ans.end());
 	return ans;
 }
-int main() {
+int main() { 
 	int n;
 	cin >> n;
 	vector<int>nums;

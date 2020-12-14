@@ -3,13 +3,13 @@ using namespace std;
 int main() {
 	string s;
 	cin >> s;
-	unordered_map<char, int> mp;
-	for (char val : s) {
+	unordered_map<char, int>mp;
+	for (auto val : s) {
 		mp[val]++;
 	}
 	for (auto val : mp) {
-		if (val.second > 1) {
+		if (val.second >= 2)
 			cout << val.first << " ";
-		}
 	}
+	return 0;
 }
