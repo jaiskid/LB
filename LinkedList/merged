@@ -1,0 +1,958 @@
+/*-- File: AddoneLinkedList.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+class node {
+public:
+	int data;
+	node*next;
+	node(int d) {
+		data = d;
+		next = NULL;
+	}
+};
+void construct(node*&head, int data) {
+	node*n = new node(data);
+	n->next = head;
+	head = n;
+}
+void print(node*head) {
+	while (head != NULL) {
+		cout << head->data << " ";
+		head = head->next;
+	}
+	cout << endl;
+}
+void reverse(node*&head) {
+	node*curr = head;
+	node*prev = NULL;
+	node*save;
+	while (curr) {
+		save = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = save;
+	}
+	head = prev;
+}
+int main() {
+	int n;
+	cin >> n;
+	node*head = NULL;
+	while (n--) {
+		int data;
+		cin >> data;
+		construct(head, data);
+	}
+	print(head);
+	reverse(head);
+	print(head);
+}
+/*-- File: AddoneLinkedList.cpp end --*/
+/*-- File: DetectLoop.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+class node {
+public:
+	int data;
+	node*next;
+	node(int d) {
+		data = d;
+		next = NULL;
+	}
+};
+void constructNode(node*&head, int data) {
+	node*n = new node(data);
+	n->next = head;
+	head = n;
+}
+void reverse(node*&head) {
+	node *curr = head;
+	node*prev = NULL;
+	node*save;
+	while (curr) {
+		save = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = save;
+	}
+	head = prev;
+}
+void recursive(node*prev, node*curr, node*&head) {
+	if (!curr) {
+		return;
+	}
+	if (!curr->next) {
+		head = curr;
+		curr->next = prev;
+		return;
+	}
+	recursive(curr, curr->next, head);
+	curr->next = prev;
+}
+void print(node*head) {
+	while (head) {
+		cout << head->data << " ";
+		head = head->next;
+	}
+}
+node* reverseK(node*&head, int k) {
+	node*curr = head;
+	node*prev = NULL;
+	node*save;
+	int count = 0;
+	while (curr != NULL and count < k) {
+		save = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = save;
+		count++;
+	}
+	if (save != NULL) {
+		head->next = reverseK(save, k);
+	}
+	return prev;
+}
+bool detectLoop(node*head) {
+	unordered_set<node*>s;
+	while (head != NULL) {
+		if (s.find(head) != s.end())
+			return true;
+		s.insert(head);
+		head = head ->next;
+	}
+	return false;
+}
+bool detectLoopFloydCycle(node*head) {
+	node*slow = head, *fast = head;
+	while (slow and fast and fast->next != NULL) {
+		slow = slow->next;
+		fast = fast->next->next;
+		if (slow == fast)
+			return true;
+	}
+	return false;
+}
+int main() {
+	node* head = NULL;
+	int n;
+	cin >> n;
+	while (n--) {
+		int data;
+		cin >> data;
+		constructNode(head, data);
+	}
+	// print(head);
+	// reverse(head);
+	// cout << endl;
+	// print(head);
+	// cout << endl;
+	// recursive(NULL, head, head);
+	print(head);
+	// int k;
+	// cin >> k;
+	// head = reverseK(head, k);
+	head->next->next->next->next = head;
+	cout << detectLoopFloydCycle(head);
+
+}
+/*-- File: DetectLoop.cpp end --*/
+/*-- File: FindFirstLoopIn.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+class node {
+public:
+	int data;
+	node*next;
+	node(int d) {
+		data = d;
+		next = NULL;
+	}
+};
+void construct(node*&head, int data) {
+	node* n = new node(data);
+	n->next = head;
+	head = n;
+}
+node* detect(node*head) {
+	node*slow = head;
+	node* fast = head;
+	while (slow and fast and fast->next) {
+		slow = slow->next;
+		fast = fast->next->next;
+		if (slow == fast) {
+			return slow;
+		}
+	}
+	return NULL;
+}
+node* removeLoop(node*head) {
+	node*slow = head;
+	node*fast = head;
+	slow = slow->next;
+	fast = fast->next->next;
+	while (fast and fast->next) {
+		slow = slow->next;
+		fast = fast->next->next;
+		if (slow == fast) {
+			break;
+		}
+	}
+	if (slow != fast) {
+		return NULL;
+	}
+	slow = head;
+	if (slow != fast) {
+		slow = slow->next;
+		fast = fast->next;
+	}
+	return slow;
+}
+void print(node*head) {
+	while (head != NULL) {
+		cout << head->data << " ";
+		head = head->next;
+	}
+}
+int main() {
+	node*head = NULL;
+	int n;
+	cin >> n;
+	while (n--) {
+		int data;
+		cin >> data;
+		construct(head, data);
+	}
+	print(head);
+	cout << endl;
+	head->next->next->next->next = head->next;
+	node*res = detect(head);
+
+	if (res != NULL) {
+		cout << res->data;
+	}
+	else {
+		cout << "Not found" << endl;
+	}
+}
+/*-- File: FindFirstLoopIn.cpp end --*/
+/*-- File: MoveLastelementtofront.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+class node {
+public:
+	int data;
+	node* next;
+	node(int d) {
+		data = d;
+		next = NULL;
+	}
+};
+void construct(node*&head, int data) {
+	node*n = new node(data);
+	n->next = head;
+	head = n;
+}
+void print(node*head) {
+	while (head != NULL) {
+		cout << head->data << " ";
+		head = head->next;
+	}
+}
+void mover(node*&head) {
+	if (head == NULL || head->next == NULL) {
+		return;
+	}
+	node*secLast = NULL;
+	node*last = head;
+	while (last->next != NULL) {
+		secLast = last;
+		last = last->next;
+	}
+	secLast->next = NULL;
+	//creating null after n-1 nodes
+	// attaching head to the last node
+	last->next = head;
+	// print(last);
+	//New head updated
+	head = last;
+}
+int main() {
+	int n;
+	cin >> n;
+	node*head = NULL;
+	while (n--) {
+		int data;
+		cin >> data;
+		construct(head, data);
+	}
+	print(head);
+	mover(head);
+}
+/*-- File: MoveLastelementtofront.cpp end --*/
+/*-- File: RecursiveLinkedList.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+class node {
+public:
+	int data;
+	node* next;
+	node(int d) {
+		data = d;
+		next = NULL;
+	}
+};
+node* CreateList(node*&head, int data) {
+	node*n = new node(data);
+	n->next = head;
+	head = n;
+	return head;
+}
+void print(node*head) {
+	while (head != NULL) {
+		cout << head->data << " ";
+		head = head->next;
+	}
+}
+void Recursive(node*prev, node*curr, node*&head) {
+	if (!curr) {
+		return;
+	}
+	if (!curr->next) {
+		head = curr;
+		curr->next = prev;
+		return;
+	}
+	Recursive(curr, curr->next, head);
+	curr->next = prev;
+}
+void reverseUsingIterative(node*&head) {
+	node*curr = head;
+	node*prev = NULL;
+	node*save;
+	while (curr) {
+		save = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = save;
+
+	}
+	head = prev;
+
+}
+int main() {
+	node* head = NULL;
+	int n;
+	cin >> n;
+	while (n--) {
+		int data;
+		cin >> data;
+		head = CreateList(head, data);
+	}
+	reverseUsingIterative(head);
+	print(head);
+	Recursive(NULL, head, head);
+	cout << endl;
+	print(head);
+}
+/*-- File: RecursiveLinkedList.cpp end --*/
+/*-- File: RemoveDuplicateFromsortedlink.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+class node {
+public:
+	int data;
+	node*next;
+	node(int d) {
+		data = d;
+		next = NULL;
+	}
+};
+void construct(node*&head, int data) {
+	node*n = new node(data);
+	n->next = head;
+	head = n;
+}
+void RemoveDuplicate(node*&head) {
+	node*curr = head;
+	node*res;
+	if (curr == NULL)
+		return;
+	while (curr->next != NULL) {
+		if (curr->data == curr->next->data) {
+			res = curr->next->next;
+			free(curr->next);
+			curr->next = res;
+		}
+		else {
+			curr = curr->next;
+		}
+
+	}
+}
+void print(node*head) {
+	while (head != NULL) {
+		cout << head->data << " ";
+		head = head->next;
+	}
+}
+int main() {
+	node* head = NULL;
+	int n;
+	cin >> n;
+	while (n--) {
+		int data;
+		cin >> data;
+		construct(head, data);
+	}
+	// print(head);
+	RemoveDuplicate(head);
+	print(head);
+}
+/*-- File: RemoveDuplicateFromsortedlink.cpp end --*/
+/*-- File: RemoveLinkedList.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+class node {
+public:
+	int data;
+	node* next;
+	node(int d) {
+		data = d;
+		next = NULL;
+	}
+};
+void construct(node*&head, int data) {
+	node*n = new node(data);
+	n->next = head;
+	head = n;
+}
+void removeLoop(node* slow, node*&head) {
+	node* ptr1;
+	node* ptr2;
+	ptr1 = head;
+	while (1) {
+		ptr2 = slow;
+		while (ptr2->next != slow and ptr2->next != ptr1)
+			ptr2 = ptr2->next;
+		if (ptr2->next == ptr1)
+			break;
+		ptr1 = ptr1->next;
+	}
+	ptr2->next = NULL;
+}
+bool detectNremove(node*head) {
+	node*slow = head;
+	node* fast = head;
+	while (slow and fast and fast->next) {
+		slow = slow->next;
+		fast = fast->next->next;
+		if (slow == fast) {
+			removeLoop(slow, head);
+			return true;
+		}
+	}
+	return false;
+}
+void print(node* head) {
+	while (head!=NULL) {
+		cout << head->data << " ";
+		head = head->next;
+	}
+
+}
+int main() {
+	node *head = NULL;
+	int n;
+	cin >> n;
+	while (n--) {
+		int data;
+		cin >> data;
+		construct(head, data);
+	}
+	print(head);
+	 head->next->next->next->next->next = head->next->next;
+	detectNremove(head);
+	cout << endl;
+	print(head);
+}
+/*-- File: RemoveLinkedList.cpp end --*/
+/*-- File: RemoveLinkedlistCount.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+class node {
+public:
+	int data;
+	node* next;
+	node(int d) {
+		data = d;
+		next = NULL;
+	}
+};
+void construct(node*&head, int data) {
+	node*n = new node(data);
+	n->next = head;
+	head = n;
+}
+void print(node* head) {
+	while (head != NULL) {
+		cout << head->data << " ";
+		head = head->next;
+	}
+}
+void reverse(node*&head) {
+	node*curr = head;
+	node* prev = NULL;
+	node*save;
+	while (curr) {
+		save = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = save;
+	}
+	head = prev;
+}
+void recursiveReverse(node*prev, node*curr, node*&head) {
+	if (!curr)
+		return;
+	if (!curr->next) {
+		head = curr;
+		curr->next = prev;
+		return;
+	}
+	recursiveReverse(curr, curr->next, head);
+	curr->next = prev;
+}
+node* reverseInKgroup(node*&head, int k) {
+	node*curr = head;
+	node*prev = NULL;
+	node*save;
+	int count = 0;
+	while (curr != NULL and count < k) {
+
+		save = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = save;
+		count++;
+	}
+	if (save != NULL)
+		head->next = reverseInKgroup(save, k);
+	return prev;
+}
+bool detectCycle(node*head) {
+	unordered_set<node*> s;
+	while (head) {
+		if (s.find(head) != s.end()) {
+			return true;
+		}
+		s.insert(head);
+		head = head ->next;
+	}
+	return false;
+}
+bool floydCycleDetection(node*head) {
+	node*slow = head;
+	node*fast = head;
+	while (slow and fast and fast->next) {
+		slow = slow->next;
+		fast = fast->next->next;
+		if (slow == fast)
+			return true;
+	}
+	return false;
+}
+void removal(node*slow, node*&head) {
+	node*ptr1;
+	node*ptr2;
+	/* Set a pointer to the beginning of the Linked List and
+	 move it one by one to find the first node which is
+	 part of the Linked List */
+	ptr1 = head;
+	while (1) {
+		/* Now start a pointer from loop_node and check if it ever
+		reaches ptr2 */
+		ptr2 = slow;
+		while (ptr2->next != slow and ptr2->next != ptr1) {
+			ptr2 = ptr2->next;
+		}
+		/* If ptr2 reahced ptr1 then there is a loop. So break the
+		loop */
+		if (ptr2->next == ptr1)
+			break;
+		/* If ptr2 did't reach ptr1 then try the next node after ptr1 */
+		ptr1 = ptr1->next;
+	}
+	ptr2 ->next = NULL;
+}
+bool remover(node*&head) {
+	node*slow = head;
+	node*fast = head;
+	while (slow and fast and fast->next) {
+		slow = slow->next;
+		fast = fast->next->next;
+		if (slow == fast) {
+			removal(slow, head);
+			return true;
+		}
+	}
+	return false;
+}
+void counterlooper(node*slow, node*&head) {
+	node*ptr1 = slow;
+	node*ptr2 = slow;
+	// Count the number of nodes in loop
+	int k = 1, i;
+	while (ptr1->next != ptr2) {
+		ptr1 = ptr1->next;
+		k++;
+	}
+	// Fix one pointer to head
+	ptr1 = head;
+	// And the other pointer to k nodes after head
+	ptr2 = head;
+	for (i = 0; i < k; i++) {
+		ptr2 = ptr2->next;
+	}
+	/*  Move both pointers at the same pace,
+	  they will meet at loop starting node */
+	while (ptr2 != ptr1) {
+		ptr1 = ptr1->next;
+		ptr2 = ptr2->next;
+	}
+	while (ptr2->next != ptr1) {
+		ptr2 = ptr2->next;
+	}
+	ptr2->next = NULL;
+}
+bool detecter(node*&head) {
+	node*slow = head;
+	node*fast = head;
+	while (slow and fast and fast->next) {
+		slow = slow->next;
+		fast = fast->next->next;
+		if (slow == fast) {
+			counterlooper(slow, head);
+			return true;
+		}
+	}
+	return false;
+}
+int main() {
+	node*head = NULL;
+	int n;
+	cin >> n;
+
+	while (n--) {
+		int data;
+		cin >> data;
+		construct(head, data);
+	}
+	print(head);
+	reverse(head);
+	cout << endl;
+	print(head);
+	recursiveReverse(NULL, head, head);
+	cout << endl;
+	print(head);
+	head = reverseInKgroup(head, 2);
+	cout << endl;
+	print(head);
+	head->next->next->next = head;
+	cout << endl;
+	cout << detectCycle(head);
+	cout << endl;
+	cout << floydCycleDetection(head);
+	remover(head);
+	cout << endl;
+	cout << detectCycle(head);
+	cout << endl;
+	cout << floydCycleDetection(head);
+
+}
+/*-- File: RemoveLinkedlistCount.cpp end --*/
+/*-- File: RemoveLinklistWithinfunction.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+class node {
+public:
+	int data;
+	node*next;
+	node(int d) {
+		data = d;
+		next = NULL;
+	}
+};
+void construct(node*&head, int data) {
+	node*n = new node(data);
+	n->next = head;
+	head = n;
+}
+void print(node*head) {
+	while (head != NULL) {
+		cout << head->data << " ";
+		head = head->next;
+	}
+}
+void removeLoop(Node* head)
+{
+	// code here
+	// code here
+// just remove the loop without losing any nodes
+	Node* slow = head, *fast = head;
+
+	while (fast and fast->next) {
+		slow = slow->next;
+		fast = fast->next->next;
+		if (slow == fast) break;
+	}
+
+	if (slow == fast) {
+
+		slow = head;
+		if (slow == fast) {
+			while (fast->next != slow) fast = fast->next;
+		}
+		else
+		{
+			while (slow->next != fast->next) {
+				slow = slow->next;
+				fast = fast->next;
+
+			}
+		}
+		fast->next = NULL;
+
+	}
+}
+bool detect(node*head) {
+	node*slow = head;
+	node*fast = head;
+	while (slow and fast and fast->next) {
+		slow = slow->next;
+		fast = fast->next->next;
+		if (slow == fast) {
+			return true;
+		}
+	}
+	return false;
+}
+int main() {
+	int n;
+	cin >> n;
+	node*head = NULL;
+	while (n--) {
+		int data;
+		cin >> data;
+		construct(head, data);
+	}
+	// print(head);
+	head->next->next->next->next->next = head->next->next;
+	// cout << detect(head);
+	removeLoop(head);
+	// cout << detect(head);
+	print(head);
+}
+/*-- File: RemoveLinklistWithinfunction.cpp end --*/
+/*-- File: RemoveUnsortedLinkedList.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+class node {
+public:
+	int data;
+	node* next;
+	node(int d) {
+		data = d;
+		next = NULL;
+	}
+};
+void construct(node*&head, int data) {
+	node*n = new node(data);
+	n->next = head;
+	head = n;
+}
+void print(node*head) {
+	while (head != NULL) {
+		cout << head->data << " ";
+		head = head->next;
+	}
+	cout << endl;
+}
+void removeUnsorted(node*&head) {
+	node*ptr1, *ptr2, *dup;
+	ptr1 = head;
+	while (ptr1 != NULL and ptr1->next != NULL) {
+		ptr2 = ptr1;
+		while (ptr2->next != NULL) {
+			if (ptr1->data == ptr2->next->data) {
+				dup = ptr2->next;
+				ptr2->next = ptr2->next->next;
+				delete(dup);
+			}
+			else {
+				ptr2 = ptr2->next;
+			}
+		}
+		ptr1 = ptr1->next;
+	}
+}
+void removeDuplicate(node*head) {
+	node*curr = head;
+	node*prev = NULL;
+	unordered_set<int>seen;
+	while (curr != NULL) {
+		if (seen.find(curr->data) != seen.end()) {
+			prev->next = curr->next;
+			delete(curr);
+		}
+		else {
+			seen.insert(curr->data);
+			prev = curr;
+		}
+		curr = prev->next;
+	}
+}
+int main() {
+	node*head = NULL;
+	int n;
+	cin >> n;
+	while (n--) {
+		int data;
+		cin >> data;
+		construct(head, data);
+	}
+	print(head);
+	removeUnsorted(head);
+	print(head);
+}
+/*-- File: RemoveUnsortedLinkedList.cpp end --*/
+/*-- File: ReverseInK.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+class node {
+public:
+	int data;
+	node*next;
+	node(int d) {
+		data = d;
+		next = NULL;
+	}
+};
+void CreateList(node*&head, int data) {
+	node *n = new node(data);
+	n->next = head;
+	head = n;
+	// return head;
+}
+void print(node*head) {
+	while (head) {
+		cout << head->data << " ";
+		head = head->next;
+	}
+}
+void reverseIterative(node*&head) {
+	node*curr = head;
+	node*prev = NULL;
+	node*save;
+	while (curr) {
+		save = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = save;
+	}
+	head = prev;
+}
+void Recursive(node*prev, node*curr, node*&head) {
+	if (!curr)
+		return;
+	if (!curr->next) {
+		head = curr;
+		curr->next = prev;
+		return;
+	}
+	Recursive(curr, curr->next, head);
+	curr->next = prev;
+}
+node* reverseinK(node*&head, int k) {
+	node*curr = head;
+	node*prev = NULL;
+	node*save = NULL;
+	int count = 0;
+	while (curr != NULL and count < k) {
+		save = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = save;
+		count++;
+	}
+	if (save != NULL)
+		head->next = reverseinK(save, k);
+	return prev;
+}
+int main() {
+	node*head = NULL;
+	int n;
+	cin >> n;
+	while (n--) {
+		int data;
+		cin >> data;
+		CreateList(head, data);
+	}
+	// reverseIterative(head);
+	 print(head);
+	// cout << endl;
+	// Recursive(NULL, head, head);
+	// print(head);
+	cout << endl;
+	head = reverseinK(head, 3);
+	print(head);
+}
+/*-- File: ReverseInK.cpp end --*/
+/*-- File: ReverseLinkedListIterative.cpp start --*/
+#include<bits/stdc++.h>
+using namespace std;
+class node {
+public:
+	int data;
+	node* next;
+	node(int d) {
+		data = d;
+		next = NULL;
+	}
+};
+node* createNode(node*&head, int data) {
+	node *n = new node(data);
+	n->next = head;
+	head = n;
+	return head;
+}
+void print(node*head) {
+	while (head != NULL) {
+		cout << head->data << " ";
+		head = head->next;
+	}o
+}
+void reverseLinkedlistUsingIterative(node*&head) {
+	node*curr = head;
+	node*prev = NULL;
+	node*save;
+	while (curr) {
+		save = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = save;
+	}
+	head = prev;
+}
+int main() {
+	node *head = NULL;
+	int n;
+	cin >> n;
+	while (n--) {
+		int data;
+		cin >> data;
+		head = createNode(head, data);
+	}
+	reverseLinkedlistUsingIterative(head);
+	print(head);
+}
+/*-- File: ReverseLinkedListIterative.cpp end --*/
